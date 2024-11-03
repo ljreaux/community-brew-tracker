@@ -1,7 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { communityBrews } from "@/lib/communityBrews";
 import Link from "next/link";
-import { Suspense } from "react";
 
 export default async function Home() {
   return (

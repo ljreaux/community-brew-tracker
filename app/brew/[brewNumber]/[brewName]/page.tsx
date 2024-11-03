@@ -1,5 +1,4 @@
 import { getSheets, UrlKey } from "@/app/actions/sheets";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -8,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Suspense } from "react";
 
 async function Brew({
   params,
@@ -39,7 +37,7 @@ async function Brew({
   return (
     <main className="flex flex-col w-full items-center justify-center p-4 space-y-12">
       <h1 className="text-4xl py-6">
-        {currentSheet.name}'s Community Brew {brewNumber}
+        {currentSheet.name}&apos;s Community Brew {brewNumber}
       </h1>
       <Table>
         <TableHeader>

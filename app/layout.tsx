@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import Link from "next/link";
 import Nav from "@/components/Nav";
 import { Suspense } from "react";
 import Loading from "./loading";
