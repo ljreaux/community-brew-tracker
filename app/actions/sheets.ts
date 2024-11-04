@@ -35,7 +35,9 @@ export async function getSheets(brewNumber?: UrlKey) {
     if (!apiUrl)
       throw new Error("Requested API URL is not defined in the .env");
 
-    const res = await fetch(apiUrl);
+    const res = await fetch(apiUrl, {
+      next: { revalidate: 60 },
+    });
     const data = await res.json();
     const sheets: SheetType[] = data.filter(
       (sheet: SheetType) => sheet.name !== "Template"
