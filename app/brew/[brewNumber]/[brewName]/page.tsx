@@ -8,8 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { communityBrews } from "@/lib/communityBrews";
-import Link from "next/link";
 
 async function Brew({
   params,

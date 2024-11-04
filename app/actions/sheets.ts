@@ -49,7 +49,7 @@ export async function getSheets(brewNumber?: UrlKey) {
 
 export const getItemsWithTag = async (tag: string) => {
   const brews = [];
-  for (const [key, value] of Object.entries(apiUrls)) {
+  for (const key of Object.keys(apiUrls)) {
     const sheets = await getSheets(key as UrlKey);
     if (sheets) brews.push(sheets);
   }
