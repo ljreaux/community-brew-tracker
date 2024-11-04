@@ -71,14 +71,14 @@ async function Main({ params }: { params: Promise<{ brewNumber: string }> }) {
           </div>
         ))}
       </div>
-      <div className="flex flex-col gap-4">
+      <footer className="flex flex-col gap-4 border-t border-secondary w-full py-2">
         <p>tags:</p>
         <div className="flex flex-wrap gap-4 items-center justify-center">
           {[...tags].map((tag) => (
             <Tag text={tag} key={tag} />
           ))}
         </div>
-      </div>
+      </footer>
     </main>
   );
 }
