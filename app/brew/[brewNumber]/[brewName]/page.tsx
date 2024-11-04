@@ -1,4 +1,5 @@
 import { getSheets, UrlKey } from "@/app/actions/sheets";
+import Tag from "@/components/Tag";
 import {
   Table,
   TableBody,
@@ -7,6 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { communityBrews } from "@/lib/communityBrews";
+import Link from "next/link";
 
 async function Brew({
   params,
@@ -39,6 +42,7 @@ async function Brew({
       <h1 className="text-4xl py-6">
         {currentSheet.name}&apos;s Community Brew {brewNumber}
       </h1>
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -131,6 +135,14 @@ async function Brew({
           )}
         </TableBody>
       </Table>
+      <div className="flex flex-col gap-4">
+        <p>tags:</p>
+        <div className="flex flex-wrap gap-4 items-center justify-center">
+          {currentSheet.tags.map((tag) => (
+            <Tag text={tag} key={tag} />
+          ))}
+        </div>
+      </div>
     </main>
   );
 }

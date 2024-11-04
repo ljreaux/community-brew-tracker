@@ -2,18 +2,38 @@ import { getSheets, UrlKey } from "../../actions/sheets";
 import { groupBy } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { communityBrews } from "@/lib/communityBrews";
+import Tag from "@/components/Tag";
 
 async function Main({ params }: { params: Promise<{ brewNumber: string }> }) {
   const { brewNumber } = await params;
   const sheets = (await getSheets(brewNumber as unknown as UrlKey)) || [];
+  const tags: Set<string> = new Set();
+  sheets.forEach((sheet) => {
+    sheet.tags.forEach((tag) => tags.add(tag));
+  });
+
   const groupedSheets = groupBy(sheets, (sheet) => sheet.current_stage);
   const groups = ["Primary", "Secondary", "Packaging", "Finished"];
-
+  const currentSheetUrl =
+    communityBrews.find((brew) => brew.brewNumber.toString() === brewNumber)
+      ?.sheetUrl || "";
   if (!sheets.length) return <div>Error Retrieving Community Brew Info</div>;
 
   return (
     <main className="flex items-center justify-center flex-col p-2">
       <h1 className="text-6xl">Community Brew {brewNumber}</h1>
+      <p className="my-4">
+        Link to current Google Sheet{" "}
+        <a
+          href={currentSheetUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline font-bold"
+        >
+          here.
+        </a>
+      </p>
       <div className="flex gap-4 w-full p-4">
         {groups.map((group) => (
           <div
@@ -50,6 +70,14 @@ async function Main({ params }: { params: Promise<{ brewNumber: string }> }) {
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex flex-col gap-4">
+        <p>tags:</p>
+        <div className="flex flex-wrap gap-4 items-center justify-center">
+          {[...tags].map((tag) => (
+            <Tag text={tag} key={tag} />
+          ))}
+        </div>
       </div>
     </main>
   );

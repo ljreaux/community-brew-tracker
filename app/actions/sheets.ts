@@ -1,11 +1,9 @@
 "use server";
 
-import axios from "axios";
-
-const { NEXT_PUBLIC_BREW_FOUR_URL } = process.env;
+const { NEXT_PUBLIC_BREW_FOUR_URL = "" } = process.env;
 
 const apiUrls = {
-  4: NEXT_PUBLIC_BREW_FOUR_URL,
+  "4": NEXT_PUBLIC_BREW_FOUR_URL,
 };
 
 export type UrlKey = keyof typeof apiUrls;
@@ -28,6 +26,7 @@ export interface SheetType {
   after_backsweetening?: number;
   package_date: string;
   current_stage: "Primary" | "Secondary" | "Packaging" | "Finished";
+  tags: string[];
 }
 
 export async function getSheets(brewNumber?: UrlKey) {
@@ -36,7 +35,8 @@ export async function getSheets(brewNumber?: UrlKey) {
     if (!apiUrl)
       throw new Error("Requested API URL is not defined in the .env");
 
-    const { data } = await axios.get(apiUrl);
+    const res = await fetch(apiUrl);
+    const data = await res.json();
     const sheets: SheetType[] = data.filter(
       (sheet: SheetType) => sheet.name !== "Template"
     );
@@ -46,3 +46,14 @@ export async function getSheets(brewNumber?: UrlKey) {
     console.error(error);
   }
 }
+
+export const getItemsWithTag = async (tag: string) => {
+  const brews = [];
+  for (const [key, value] of Object.entries(apiUrls)) {
+    const sheets = await getSheets(key as UrlKey);
+    if (sheets) brews.push(sheets);
+  }
+  return brews.flatMap((sheets) =>
+    sheets.filter((sheet) => sheet.tags.includes(tag))
+  );
+};
