@@ -15,9 +15,10 @@ async function Main({ params }: { params: Promise<{ brewNumber: string }> }) {
 
   const groupedSheets = groupBy(sheets, (sheet) => sheet.current_stage);
   const groups = ["Primary", "Secondary", "Packaging", "Finished"];
-  const currentSheetUrl =
-    communityBrews.find((brew) => brew.brewNumber.toString() === brewNumber)
-      ?.sheetUrl || "";
+  const currentSheet = communityBrews.find(
+    (brew) => brew.brewNumber.toString() === brewNumber
+  );
+  const currentSheetUrl = currentSheet?.sheetUrl || "";
   if (!sheets.length) return <div>Error Retrieving Community Brew Info</div>;
 
   return (
@@ -34,6 +35,21 @@ async function Main({ params }: { params: Promise<{ brewNumber: string }> }) {
           here.
         </a>
       </p>
+      <div className="flex gap-2">
+        <p>MeadTools Recipe Links:</p>{" "}
+        {currentSheet &&
+          currentSheet.recipeUrls.map((rec) => (
+            <a
+              className="font-bold underline"
+              href={rec.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={rec.label}
+            >
+              {rec.label}
+            </a>
+          ))}
+      </div>
       <div className="flex gap-4 w-full p-4">
         {groups.map((group) => (
           <div
